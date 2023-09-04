@@ -57,6 +57,13 @@ class _ChatPageState extends State<ChatPage> {
           showUserAvatars: true,
           showUserNames: true,
           user: _user,
+          theme: const DefaultChatTheme(
+            primaryColor: Color(0xff9D21E6),
+          ),
+          customMessageBuilder: (p0, {required messageWidth}) => Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text('${p0.metadata!['description']}'),
+          ),
         ),
       );
 

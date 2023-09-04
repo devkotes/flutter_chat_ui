@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:visibility_detector/visibility_detector.dart';
@@ -176,6 +178,9 @@ class Message extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // CUSTOM MSG Variable.
+    final customMsg = (message is types.CustomMessage);
+    // CUSTOM MSG Variable.
     final query = MediaQuery.of(context);
     final user = InheritedUser.of(context).user;
     final currentUserIsAuthor = user.id == message.author.id;
@@ -261,6 +266,9 @@ class Message extends StatelessWidget {
                             borderRadius.resolve(Directionality.of(context)),
                             currentUserIsAuthor,
                             enlargeEmojis,
+                            // CUSTOM MSG Variable.
+                            customMsg,
+                            // CUSTOM MSG Variable.
                           ),
                         )
                       : _bubbleBuilder(
@@ -268,6 +276,9 @@ class Message extends StatelessWidget {
                           borderRadius.resolve(Directionality.of(context)),
                           currentUserIsAuthor,
                           enlargeEmojis,
+                          // CUSTOM MSG Variable.
+                          customMsg,
+                          // CUSTOM MSG Variable.
                         ),
                 ),
               ],
@@ -307,6 +318,9 @@ class Message extends StatelessWidget {
     BorderRadius borderRadius,
     bool currentUserIsAuthor,
     bool enlargeEmojis,
+    // CUSTOM MSG Variable.
+    bool isCustomMsg,
+    // CUSTOM MSG Variable.
   ) =>
       bubbleBuilder != null
           ? bubbleBuilder!(
@@ -319,8 +333,16 @@ class Message extends StatelessWidget {
               : Container(
                   decoration: BoxDecoration(
                     borderRadius: borderRadius,
+                    // CUSTOM MSG Variable ADD BORDER.
+                    border: Border.all(
+                      width: 1,
+                      color: (isCustomMsg)
+                          ? InheritedChatTheme.of(context).theme.primaryColor
+                          : Colors.white,
+                    ),
                     color: !currentUserIsAuthor ||
-                            message.type == types.MessageType.image
+                            message.type == types.MessageType.image ||
+                            isCustomMsg
                         ? InheritedChatTheme.of(context).theme.secondaryColor
                         : InheritedChatTheme.of(context).theme.primaryColor,
                   ),
